@@ -1,24 +1,9 @@
-//
-//  ContentView.swift
-//  LOTRConverter
-//
-//  Created by Matheus Ferreira Santos on 10/03/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     @State var showExchangeInfo: Bool = false;
-    @State var leftAmountInputValue: String = "" {
-        didSet {
-            print("(LEFT) changed value: \(self.leftAmountInputValue)");
-        }
-    };
-    @State var rightAmountInputValue: String = "" {
-        didSet {
-            print("(RIGHT) changed value: \(self.rightAmountInputValue)")
-        }
-    }
+    @State var leftAmountInputValue: String = "";
+    @State var rightAmountInputValue: String = "";
     
     var body: some View {
         ZStack {
@@ -51,7 +36,6 @@ struct ContentView: View {
                                 .foregroundColor(.white);
                         }
                         
-                        //text field
                         TextField("Amount", text: self.$leftAmountInputValue)
                             .textFieldStyle(.roundedBorder)
                     }
@@ -89,13 +73,15 @@ struct ContentView: View {
                     
                     Button {
                         self.showExchangeInfo.toggle();
-                        print(self.showExchangeInfo)
                     } label: {
                         Image(systemName: "info.circle.fill")
                             .font(.largeTitle)
                             .foregroundStyle(.white);
                     }
-                    .padding(.trailing);
+                    .padding(.trailing)
+                    .sheet(isPresented: self.$showExchangeInfo) {
+                        ExchangeInfo()
+                    }
                 }
             }
         }
